@@ -17,6 +17,7 @@ module Hercules
     # the framework and any gems in your application.
     config.generators do |g|
       g.test_framework :rspec
+      g.javascript_engine :js
     end
   end
 end
