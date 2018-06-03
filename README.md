@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/David-Sharpe/hercules/badge.svg)](https://coveralls.io/github/David-Sharpe/hercules)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
