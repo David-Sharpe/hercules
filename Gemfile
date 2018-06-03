@@ -31,8 +31,6 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'coveralls', require: false
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -53,6 +51,8 @@ group :development do
 end
 
 group :test do
+  gem 'simplecov', '~> 0.16', require: false
+  gem 'coveralls', require: false
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'selenium-webdriver'

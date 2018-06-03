@@ -279,6 +279,7 @@ DEPENDENCIES
   rspec-rails (~> 3.7)
   sass-rails (~> 5.0)
   selenium-webdriver
+  simplecov (~> 0.16)
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
