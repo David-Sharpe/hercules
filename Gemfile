@@ -13,11 +13,15 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
+gem 'swagger_ui_engine', '~> 1.1'
 
 gem 'haml-rails', '~> 1.0'
 gem 'bootstrap', '~> 4.1'
 gem 'webpacker', '~> 3.5'
 gem 'react-rails', '~> 2.4'
+gem 'jquery-rails', '~> 4.3'
+gem 'omniauth', '~> 1.6'
+gem 'omniauth-auth0', '~> 2.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
