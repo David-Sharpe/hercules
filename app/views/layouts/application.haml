@@ -1,12 +1,23 @@
-!!!
+!!! 5
 = javascript_pack_tag 'application'
-%html
+%html{lang: 'en'}
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Hercules
-    = csrf_meta_tags
-    = csp_meta_tag
+    %meta{charset: "utf-8"}
+    %meta{:content => "text/html", "http-equiv" => "Content-Type"}
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}
+    / = csrf_meta_tags
+    / = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag    'application'
+    /= stylesheet_pack_tag    'bootstrap'
+    /= javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     = yield
+  %footer{class: "footer bg-dark"}
+    .container
+      %span{class: 'footer-element text-white'}
+        Example courtesy
+        = link_to 'Martin Bean ', "http://martinbean.co.uk"
+        and
+        = link_to 'Ryan Fait', "http://ryanfait.com/sticky-footer/"
