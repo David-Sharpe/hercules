@@ -298,7 +298,7 @@ DEPENDENCIES
   omniauth (~> 1.6)
   omniauth-auth0 (~> 2.0)
   puma (~> 3.11)
-  rails (~> 5.2.0)
+  rails (~> 5.2.3)
   react-rails (~> 2.4)
   rspec-rails (~> 3.7)
   sass-rails (~> 5.0)
