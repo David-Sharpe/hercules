@@ -15,7 +15,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 gem 'haml-rails', '~> 1.0'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 4.0'
 gem 'react-rails', '~> 2.4'
 gem 'jquery-rails', '~> 4.3'
 gem 'omniauth', '~> 1.6'
