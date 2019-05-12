@@ -10,7 +10,7 @@ class BodyGrid extends React.Component {
   }
 
   render() {
-      return (<Grid><Button></Button>:</Grid>);
+      return (<Grid><Button>Test</Button>:</Grid>);
   }
 }
 

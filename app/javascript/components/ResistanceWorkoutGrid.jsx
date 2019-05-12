@@ -9,7 +9,7 @@ class ResistanceWorkoutGrid extends React.Component {
         super(props);
         this.state = {
             workout: this.makeData(),
-            selectedDate: this.currentDate(),
+            // selectedDate: this.currentDate(),
             checkedRows: []
         };
     }
@@ -63,10 +63,10 @@ class ResistanceWorkoutGrid extends React.Component {
                 <Grid>
                     <Paper>
                         <h2>Hello from the grid</h2>
-                        <TextField type='date'
+                        {/* <TextField type='date'
                             label='Date'
                             defaultValue={this.state.selectedDate}>
-                        </TextField>
+                        </TextField> */}
                         <Table>
                             <TableHead>
                                 <TableRow>
