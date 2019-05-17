@@ -140,6 +140,7 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.1.0)
+    newrelic_rpm (6.3.0.355)
     nio4r (2.3.1)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
@@ -295,6 +296,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails (~> 4.3)
   listen (>= 3.0.5, < 3.2)
+  newrelic_rpm
   omniauth (~> 1.6)
   omniauth-auth0 (~> 2.0)
   puma (~> 3.11)
