@@ -4,3 +4,10 @@
   %p The greatest fitness tracker of all time.
   = react_component 'Login'
   = react_component 'ResistanceWorkoutGrid'
+
+%img{src: "https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg"}
+%h1 RoR Auth0 Sample
+%p Step 1 - Login.
+%a{href: "/auth/auth0"}Login
+%h2 Session
+= session[:userinfo].inspect
