@@ -1,12 +1,12 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  # provider(
-  #   :auth0,
-  #   'N2LcO7u1doB5C6x0brik217iaQFvNF0L',
-  #   'MHwUpcldwiMkC77abjKGQZt0wP53AxN9RVxhvlDNUFDekRhlcMNGRNpOchqDk1Vw',
-  #   'app75034249.auth0.com',
-  #   callback_path: '',
-  #   authorize_params: {
-  #     scope: 'openid profile'
-  #   }
-  # )
+  provider(
+    :auth0,
+    ENV['AUTH0_CLIENT_ID']
+    ENV['AUTH0_CLIENT_SECRET']
+    ENV['AUTH0_DOMAIN']
+    callback_path: '/auth/oauth2/callback',
+    authorize_params: {
+      scope: 'openid profile'
+    }
+  )
 end
