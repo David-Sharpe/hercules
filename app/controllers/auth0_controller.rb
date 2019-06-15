@@ -8,6 +8,12 @@ class Auth0Controller < ApplicationController
     redirect_to '/'
   end
 
+  def logout
+    session[:userinfo] = nil
+
+    redirect_to '/'
+  end
+
   def failure
     @error_msg = request.param['message']
   end
