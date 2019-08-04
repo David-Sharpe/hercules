@@ -3,4 +3,11 @@
 .container
   %p The greatest fitness tracker of all time.
   = react_component 'Login'
-  = react_component 'ResistanceWorkoutGrid'
+  - if session[:userinfo].present?
+    = react_component 'ResistanceWorkoutGrid'
+
+%h1 RoR Auth0 Sample
+%p Step 1 - Login.
+%a{href: "/auth/auth0"}Login
+%h2 Session
+= session[:userinfo].inspect
