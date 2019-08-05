@@ -1,7 +1,7 @@
 {
   "engineStrict": true,
   "engines": {
-    "node": ">= 12.6"
+    "node": ">= 10.14"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
