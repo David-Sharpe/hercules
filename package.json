@@ -17,11 +17,11 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react_ujs": "^2.6.0",
-    "turbolinks": "^5.2.0",
-    "webpack": "^4.39.3"
+    "turbolinks": "^5.2.0"
   },
   "devDependencies": {
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "webpack": "^4.39.3",
     "webpack-dev-server": "^3.3.1"
   }
 }
