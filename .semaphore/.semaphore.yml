@@ -16,3 +16,14 @@ blocks:
             - checkout
             - sem-version ruby 2.6.3
             - bundle install
+  - name: Unit tests
+    task:
+      prologue:
+        commands:
+          - checkout
+          - sem-version ruby 2.6.3
+          - bundle install
+        jobs:
+          - name: RSpec
+            commands:
+              - bundle exec rspec spec
