@@ -1,5 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Auth0Controller, type: :controller do
+    describe '#callback' do
+        it 'sets userinfo in session' do
+            request.env['omniauth.auth'] = 'test data'
+            get :callback 
+            expect(session[:userinfo]).to eq('test data')
+        end
 
+        it 'redirects to the root' do
+            get :callback
+            expect(response).to redirect_to('/')
+        end
+    end
 end
