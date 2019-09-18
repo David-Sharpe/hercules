@@ -1,5 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/David-Sharpe/hercules/badge.svg)](https://coveralls.io/github/David-Sharpe/hercules)
-
+[![Coverage Status](https://coveralls.io/repos/github/David-Sharpe/hercules/badge.svg?branch=master)](https://coveralls.io/github/David-Sharpe/hercules?branch=master)
 # README
 Web-packer uses yarn package manager.  This causes issues with Apache Hadoop yarn.  Have to 
 unlink hadoop for Hadoop before running.  Then have to change link for Hadoop to work again.
