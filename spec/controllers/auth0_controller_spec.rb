@@ -13,4 +13,17 @@ RSpec.describe Auth0Controller, type: :controller do
             expect(response).to redirect_to('/')
         end
     end
+
+    describe '#logout' do
+        it "clears session's user info" do
+            session[:userinfo] = 'clear me'
+            get :logout
+            expect(session[:userinfo]).to be_nil
+        end
+
+        it 'redirects to the root' do
+            get :logout
+            expect(response).to redirect_to('/')
+        end
+    end
 end
