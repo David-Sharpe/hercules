@@ -26,4 +26,14 @@ RSpec.describe Auth0Controller, type: :controller do
             expect(response).to redirect_to('/')
         end
     end
+
+    describe '#failure' do
+        let (:error_message) { 'test message' }
+
+        it 'sets the error message for the controller' do
+            request.params['message'] = error_message
+            get :failure
+            expect(response).to redirect_to('/')
+        end
+    end
 end
