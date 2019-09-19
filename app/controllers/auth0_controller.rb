@@ -15,7 +15,9 @@ class Auth0Controller < ApplicationController
   end
 
   def failure
-    @error_msg = request.param['message']
+    @error_msg = request.params['message']
+
+    redirect_to '/'
   end
 end
 
