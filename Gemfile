@@ -15,8 +15,8 @@ gem 'haml-rails', '~> 1.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 gem 'react-rails', '~> 2.6'
-gem 'omniauth', '~> 1.6'
-gem 'omniauth-auth0', '~> 2.0'
+gem 'omniauth', '~> 1.9.1'
+gem 'omniauth-auth0', '~> 2.3'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
