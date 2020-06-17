@@ -9,7 +9,7 @@ gem 'rails', '~> 5.2.3'
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
 gem 'sassc-rails', '~> 2.1'
-
+gem 'uglifier', '~> 4.2'
 gem 'dotenv-rails', '~> 2.7'
 gem 'haml-rails', '~> 1.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
