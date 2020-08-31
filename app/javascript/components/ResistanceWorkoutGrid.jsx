@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Paper, Grid, Checkbox, TextField } from '@material-ui/core';
+import axios from 'axios';
 
 class ResistanceWorkoutGrid extends React.Component {
 
@@ -22,6 +23,17 @@ class ResistanceWorkoutGrid extends React.Component {
         return `${year}-${month}-${dayOfMonth}`;
     };
 
+    componentDidMount = async () => {
+        try{
+            const workouts = (await axios.get('http://localhost:8080/workouts/123', {headers: {'Content-Type': 'application/json'}})).data;
+            const workout = workouts.exercises;
+            this.setState({workout});
+            console.log('workouts: ', workouts);
+        } catch (err) {
+            console.err(err);
+        }
+    };
+
     makeData = () => {
         return [
             {name: 'Bench Press', weight: '185 lbs', sets: 3, reps: 10},
@@ -36,6 +48,7 @@ class ResistanceWorkoutGrid extends React.Component {
         const workout = this.state.workout;
         workout.push({});
         this.setState({workout});
+        axios.put('http://localhost:8080/workouts/123', [workout], {headers: {'Content-Type': 'Application/json'}} );
     };
 
     deleteButtonClick = (event) => {
@@ -102,6 +115,7 @@ class ResistanceWorkoutGrid extends React.Component {
                             </TableBody>
                         </Table>
                         <Button onClick={this.addButtonClick}>Add</Button>
+
                         <Button onClick={this.deleteButtonClick}>Delete</Button>
                     </Paper>            
             </Grid>

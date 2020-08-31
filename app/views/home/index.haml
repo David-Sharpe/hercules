@@ -8,6 +8,6 @@
 
 %h1 RoR Auth0 Sample
 %p Step 1 - Login.
-%a{href: "/auth/auth0"}Login
+=button_to 'Login', '/auth/auth0', method: :post
 %h2 Session
-= session[:userinfo].inspect
+= session
