@@ -10,4 +10,4 @@
 %p Step 1 - Login.
 =button_to 'Login', '/auth/auth0', method: :post
 %h2 Session
-= session
+= session[:userinfo].inspect
