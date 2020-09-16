@@ -1,14 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Auth0Controller, type: :controller do
+    let(:omniauth) {{
+            'credentials':{
+                'id_token': 'jwt'
+            },
+            'info': 'test data' 
+    }.with_indifferent_access
+    } 
+
     describe '#callback' do
         it 'sets userinfo in session' do
-            request.env['omniauth.auth'] = 'test data'
+            request.env['omniauth.auth'] = omniauth
             get :callback 
             expect(session[:userinfo]).to eq('test data')
         end
 
         it 'redirects to the root' do
+            request.env['omniauth.auth'] = omniauth
             get :callback
             expect(response).to redirect_to('/')
         end
