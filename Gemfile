@@ -17,6 +17,7 @@ gem 'webpacker', '~> 5.0'
 gem 'react-rails', '~> 2.6'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-auth0', '~> 2.3'
+gem 'omniauth-rails_csrf_protection', '~> 0.1'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Use Redis adapter to run Action Cable in production
@@ -35,10 +36,13 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 4.0'
+  gem 'pry', '~> 0.12'
 end
 
 group :development do
   gem 'better_errors', '~> 2.4'
+  gem 'pry', '~> 0.12'
+  gem 'binding_of_caller', '~> 0.8'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.2'
