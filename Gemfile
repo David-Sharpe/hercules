@@ -13,7 +13,7 @@ gem 'uglifier', '~> 4.2'
 gem 'dotenv-rails', '~> 2.7'
 gem 'haml-rails', '~> 1.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 5.0'
+gem 'webpacker', '~> 5.2'
 gem 'react-rails', '~> 2.6'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-auth0', '~> 2.3'
@@ -41,7 +41,6 @@ end
 
 group :development do
   gem 'better_errors', '~> 2.4'
-  gem 'pry', '~> 0.12'
   gem 'binding_of_caller', '~> 0.8'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
