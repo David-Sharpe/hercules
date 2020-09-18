@@ -41,7 +41,6 @@ end
 
 group :development do
   gem 'better_errors', '~> 2.4'
-  gem 'pry', '~> 0.12'
   gem 'binding_of_caller', '~> 0.8'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
