@@ -25,30 +25,34 @@ class ResistanceWorkoutGrid extends React.Component {
 
     componentDidMount = async () => {
         try{
-            const workouts = (await axios.get('http://localhost:8080/workouts/123', {headers: {'Content-Type': 'application/json'}})).data;
-            const workout = workouts.exercises;
-            this.setState({workout});
-            console.log('workouts: ', workouts);
+            const workout = (await axios.get('http://localhost:8080/workouts/123', {headers: {'Content-Type': 'application/json'}})).data;
+            console.log('retrieved workout: ', workout);
+            this.setState({ workout });
         } catch (err) {
-            console.err(err);
+            console.error(err);
         }
     };
 
     makeData = () => {
-        return [
-            {name: 'Bench Press', weight: '185 lbs', sets: 3, reps: 10},
-            {name: 'Squat', weight: '305 lbs', sets: 5, reps: 5},
-            {name: 'Overhead', weight: '145 lbs', sets: 5, reps: 5},
-            {name: 'Deadlift', weight: '275 lbs', sets: 1, reps: 5}
-        ];
+        return {
+            id: 123,
+            name: 'First Workout',
+            exercises: [
+                {name: 'Bench Press', weight: 185, units: 'lbs', sets: 3, reps: 10},
+                {name: 'Squat', weight: 305, units: 'lbs', sets: 5, reps: 5},
+                {name: 'Overhead', weight: 145, units: 'lbs', sets: 5, reps: 5},
+                {name: 'Deadlift', weight: 275, units: 'lbs', sets: 1, reps: 5}
+        ]};
     };
 
     addButtonClick = (event) => {
         event.preventDefault();
         const workout = this.state.workout;
-        workout.push({});
+        console.log('Pre workout: ', workout);
+        workout.exercises.push({});
+        console.log('Post workout: ', workout);
         this.setState({workout});
-        axios.put('http://localhost:8080/workouts/123', [workout], {headers: {'Content-Type': 'Application/json'}} );
+        axios.put(`http://localhost:8080/workouts/${ workout.id }`, workout, {headers: {'Content-Type': 'Application/json'}} );
     };
 
     deleteButtonClick = (event) => {
@@ -70,11 +74,26 @@ class ResistanceWorkoutGrid extends React.Component {
         });
     };
 
+    updateExercise = (event) => {
+        event.preventDefault();
+        console.log('event.target: ', event.target);
+        const value = event.target.value;
+        const fieldName = event.target.name;
+        this.setState((prevState) => {
+            console.log('update field: ', fieldName);
+            console.log('with value: ', value);
+            prevState.workout.exercises[0][fieldName] = value;
+            return {
+                workout: prevState.workout
+            };
+        });
+    }
+
     render() {
         return (
             <div>
-                <Grid>
-                    <Paper>
+                <Paper>
+                    <Grid>
                         <h2>Hello from the grid</h2>
                         <TextField type='date'
                             label='Date'
@@ -86,28 +105,32 @@ class ResistanceWorkoutGrid extends React.Component {
                                     <TableCell></TableCell>
                                     <TableCell>Exercise</TableCell>
                                     <TableCell>Weight</TableCell>
+                                    <TableCell>Units</TableCell>
                                     <TableCell>Sets</TableCell>
                                     <TableCell>Reps</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { this.state.workout.map((exercise, index) => {
+                                { this.state.workout.exercises.map((exercise, index) => {
                                     return (
-                                        <TableRow>
+                                        <TableRow id={index}>
                                             <TableCell>
                                                 <Checkbox onChange={this.checkClicked} value={index.toString()} />
                                             </TableCell>
                                             <TableCell>
-                                                <TextField value={exercise.name}></TextField>
+                                                <TextField value={exercise.name} name='name' onChange={this.updateExercise}></TextField>
                                             </TableCell>
                                             <TableCell>
-                                                <TextField value={exercise.weight}></TextField>
+                                                <TextField type='number' min='1' value={exercise.weight}></TextField>
                                             </TableCell>
                                             <TableCell>
-                                                <TextField type='number' defaultValue={exercise.sets}></TextField>
+                                                <TextField value={exercise.units}></TextField>
                                             </TableCell>
                                             <TableCell>
-                                                <TextField type='number' defaultValue={exercise.reps}></TextField>
+                                                <TextField type='number' min='1' defaultValue={exercise.sets}></TextField>
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField type='number' min='1' defaultValue={exercise.reps}></TextField>
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -117,8 +140,8 @@ class ResistanceWorkoutGrid extends React.Component {
                         <Button onClick={this.addButtonClick}>Add</Button>
 
                         <Button onClick={this.deleteButtonClick}>Delete</Button>
-                    </Paper>            
-            </Grid>
+                </Grid>
+            </Paper>
         </div>
     );
   }
