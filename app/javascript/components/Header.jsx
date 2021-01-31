@@ -18,6 +18,7 @@ class Header extends React.Component {
             </Menu>
         );
     }
+
     render() {
         return (
             <AppBar>

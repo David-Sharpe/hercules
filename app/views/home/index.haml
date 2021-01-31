@@ -2,7 +2,6 @@
 = react_component 'Header'
 .container
   %p The greatest fitness tracker of all time.
-  = react_component 'Login'
   - if session[:userinfo].present?
     = react_component 'ResistanceWorkoutGrid'
 

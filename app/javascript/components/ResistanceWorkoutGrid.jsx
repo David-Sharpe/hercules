@@ -1,26 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Paper, Grid, Checkbox, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Table, TableBody, TableCell, TableHead, TableRow, Paper, Grid, Checkbox, TextField } from '@material-ui/core';
 import axios from 'axios';
+import moment from 'moment';
+import { Add, Delete, Edit, NavigateBefore, NavigateNext } from '@material-ui/icons';
 
-class ResistanceWorkoutGrid extends React.Component {
+const units = Object.freeze([
+    Object.freeze({
+        label: 'kg',
+        value: 'kg'
+    }),
+    Object.freeze({
+        label: 'lb',
+        value: 'lbs'
+    })
+]);
+
+export default class ResistanceWorkoutGrid extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             workout: this.makeData(),
-            defaultValue: "2019-05-12",
-            checkedRows: []
+            defaultValue: moment().format('YYYY-MM-DD'),
+            checkedRows: new Set(), 
+            tempExercises: new Map(),
+            currentExerciseIndex: 0,
+            showExerciseModal: false 
         };
     }
 
-    currentDate = () => {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = date.getMonth() < 9 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
-        const dayOfMonth = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getVarDate()}` 
-        return `${year}-${month}-${dayOfMonth}`;
+    onUnitChange = (event) => {
+        event.preventDefault();
+        this.setState({
+            units: event.target.value
+        });
+    };
+
+    closeDialog = (event) => {
+        event.preventDefault();
+        this.setState({
+            currentExerciseIndex: 0
+        });
+        this.toggleExerciseModal(false);
+    };
+
+    saveExercises = (event) => {
+        this.updateExercises(event);
+        this.closeDialog(event);
+    };
+
+    updateExercise = (event) => {
+        const selectedExercises = [ ...this.state.checkedRows.values() ];
+        console.log('selectedExercises: ', selectedExercises);
+        const selectedKey = selectedExercises[this.state.currentExerciseIndex];
+        const currentExercise = this.state.tempExercises.get(selectedKey) || {};
+        const fieldName = event.target.id;
+        currentExercise[fieldName] = event.target.value;
+        this.forceUpdate();
     };
 
     componentDidMount = async () => {
@@ -33,27 +70,41 @@ class ResistanceWorkoutGrid extends React.Component {
         }
     };
 
-    makeData = () => {
-        return {
+    makeData = () => ({
             id: 123,
             name: 'First Workout',
-            exercises: [
-                {name: 'Bench Press', weight: 185, units: 'lbs', sets: 3, reps: 10},
-                {name: 'Squat', weight: 305, units: 'lbs', sets: 5, reps: 5},
-                {name: 'Overhead', weight: 145, units: 'lbs', sets: 5, reps: 5},
-                {name: 'Deadlift', weight: 275, units: 'lbs', sets: 1, reps: 5}
-        ]};
+            exercises: this.makeExerciseMap()
+    });
+
+    makeExerciseMap = () => {
+        const exerciseMap = new Map();
+        exerciseMap.set(0, {name: 'Bench Press', weight: 185, units: 'lbs', sets: 3, reps: 10});
+        exerciseMap.set(1, {name: 'Squat', weight: 305, units: 'lbs', sets: 5, reps: 5});
+        exerciseMap.set(2, {name: 'Overhead', weight: 145, units: 'lbs', sets: 5, reps: 5});
+        exerciseMap.set(3, {name: 'Deadlift', weight: 275, units: 'lbs', sets: 1, reps: 5});
+        return exerciseMap;
     };
 
     addButtonClick = (event) => {
         event.preventDefault();
-        const workout = this.state.workout;
-        console.log('Pre workout: ', workout);
-        workout.exercises.push({});
-        console.log('Post workout: ', workout);
-        this.setState({workout});
-        axios.put(`http://localhost:8080/workouts/${ workout.id }`, workout, {headers: {'Content-Type': 'Application/json'}} );
+
+        this.toggleExerciseModal(!this.state.showExerciseModal);
+        const tempExercises = new Map();
+        for(const key of this.state.checkedRows) {
+            tempExercises.set(key, JSON.parse(JSON.stringify(this.state.workout.exercises.get(key))));
+        }
+        this.setState({
+            tempExercises
+        });
+        // const workout = this.state.workout;
+        // console.log('Pre workout: ', workout);
+        // workout.exercises.push({});
+        // console.log('Post workout: ', workout);
+        // this.setState({workout});
+        // axios.put(`http://localhost:8080/workouts/${ workout.id }`, workout, {headers: {'Content-Type': 'Application/json'}} );
     };
+
+    toggleExerciseModal = showExerciseModal => this.setState({ showExerciseModal });
 
     deleteButtonClick = (event) => {
        let checkedRows = this.state.checkedRows;
@@ -66,85 +117,138 @@ class ResistanceWorkoutGrid extends React.Component {
     };
 
     checkClicked = (event) => {
-        event.preventDefault();
-        const checkedRows = this.state.checkedRows;
-        checkedRows.push(event.target.value);
-        this.setState({
-            checkedRows
+        console.log('event: ', event.target.checked);
+        const target = event.target;
+        const key = Number.parseInt(target.value);
+        this.setState((prevState) => {
+            if (target.checked) {
+                prevState.checkedRows.add(key);
+            } else {
+                prevState.checkedRows.delete(key);
+            }
+            return {
+                checkedRows: prevState.checkedRows
+            };
         });
     };
 
-    updateExercise = (event) => {
-        event.preventDefault();
-        console.log('event.target: ', event.target);
-        const value = event.target.value;
-        const fieldName = event.target.name;
+    updateExercises = (event) => {
+        console.log('updateExercises event: ', event);
         this.setState((prevState) => {
-            console.log('update field: ', fieldName);
-            console.log('with value: ', value);
-            prevState.workout.exercises[0][fieldName] = value;
+            console.log('prevState: ', prevState);
+            for(const key of prevState.checkedRows) {
+                console.log('row: ', key);
+                const value = this.state.tempExercises.get(key);
+                console.log('value: ', value);
+                prevState.workout.exercises.set(key, value);
+            }
             return {
                 workout: prevState.workout
             };
         });
     }
 
-    render() {
+    renderModal = () => {
+        const selectedExercises = [ ...this.state.checkedRows.values() ];
+        const currentExerciseKey = selectedExercises[this.state.currentExerciseIndex];
+        const currentExercise = this.state.tempExercises.get(currentExerciseKey) || {};
         return (
-            <div>
-                <Paper>
-                    <Grid>
-                        <h2>Hello from the grid</h2>
-                        <TextField type='date'
-                            label='Date'
-                            defaultValue={this.state.defaultValue}>
+            <Dialog open={ this.state.showExerciseModal } onClose={ this.closeDialog }>
+                <DialogTitle>Fill in exercise details</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Exercise {this.state.currentExerciseIndex + 1} of {this.state.checkedRows.size}</DialogContentText>
+                    <div>
+                        <TextField id="name" type="Text" label="Exercise" value={ currentExercise.name } onChange={ this.updateExercise }>Exercise</TextField>
+                    </div>
+                    <div>
+                        <TextField id="weight" type="Number" min="1" steps="1" label="Weight" value={currentExercise.weight } onChange={ this.updateExercise }></TextField>
+                        <TextField id="units" select label="Units" value={ currentExercise.units } onChange={this.onUnitChange}>
+                                {units.map((unit) => (
+                                    <MenuItem key={unit.value} value={unit.value}>
+                                        {unit.label}
+                                    </MenuItem>
+                                ))}
                         </TextField>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell></TableCell>
-                                    <TableCell>Exercise</TableCell>
-                                    <TableCell>Weight</TableCell>
-                                    <TableCell>Units</TableCell>
-                                    <TableCell>Sets</TableCell>
-                                    <TableCell>Reps</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                { this.state.workout.exercises.map((exercise, index) => {
-                                    return (
-                                        <TableRow id={index}>
-                                            <TableCell>
-                                                <Checkbox onChange={this.checkClicked} value={index.toString()} />
-                                            </TableCell>
-                                            <TableCell>
-                                                <TextField value={exercise.name} name='name' onChange={this.updateExercise}></TextField>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TextField type='number' min='1' value={exercise.weight}></TextField>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TextField value={exercise.units}></TextField>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TextField type='number' min='1' defaultValue={exercise.sets}></TextField>
-                                            </TableCell>
-                                            <TableCell>
-                                                <TextField type='number' min='1' defaultValue={exercise.reps}></TextField>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                }) }
-                            </TableBody>
-                        </Table>
-                        <Button onClick={this.addButtonClick}>Add</Button>
+                    </div>
+                    <div>
+                        <TextField id="sets" type="Number" min="1" steps="1" label="Sets" value={ currentExercise.sets } onChange={ this.updateExercise }></TextField>
+                    </div>
+                    <div>
+                        <TextField id="reps" type="Number" min="1" steps="1" label="Reps" value={ currentExercise.reps } onChange={ this.updateExercise }></TextField>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <IconButton onClick = {() => { this.setState(prevState => ({
+                        currentExerciseIndex: Math.max(0, prevState.currentExerciseIndex - 1)
+                    }));}}>
+                        <NavigateBefore />
+                    </IconButton>
+                    <Button color="secondary" onClick={ this.closeDialog }>Cancel</Button>
+                    <Button color="primary" onClick={ this.saveExercises }>Done</Button>
+                    <IconButton onClick = {() => { console.log('size: ', selectedExercises.length); this.setState(prevState => ({
+                        currentExerciseIndex: Math.min(selectedExercises.length - 1, prevState.currentExerciseIndex + 1)
+                    }));}}>
+                        <NavigateNext />
+                    </IconButton>
+                </DialogActions>
+            </Dialog>
+        )
+    }
 
-                        <Button onClick={this.deleteButtonClick}>Delete</Button>
+    render = () => (
+        <div>
+            { this.renderModal() }
+            <Paper>
+                <Grid>
+                    <h2>Hello from the grid</h2>
+                    <TextField type='date'
+                        label='Date'
+                        defaultValue={ this.state.defaultValue }>
+                    </TextField>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>Exercise</TableCell>
+                                <TableCell>Weight</TableCell>
+                                <TableCell>Units</TableCell>
+                                <TableCell>Sets</TableCell>
+                                <TableCell>Reps</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            { Array.from(this.state.workout.exercises.entries()).map(([key, exercise]) => {
+                                return (
+                                    <TableRow id={ key }>
+                                        <TableCell>
+                                            <Checkbox onChange={ this.checkClicked } value={ key.toString() } />
+                                        </TableCell>
+                                        <TableCell>{ exercise.name }</TableCell>
+                                        <TableCell>{ exercise.weight }</TableCell>
+                                        <TableCell>{ exercise.units }</TableCell>
+                                            <TableCell>{ exercise.sets }</TableCell>
+                                            <TableCell>{ exercise.reps }</TableCell>
+                                    </TableRow>
+                                ); }) }
+                        </TableBody>
+                    </Table>
+                    <IconButton onClick={this.addButtonClick}>
+                        {this.state.checkedRows.size > 0 ? (<Edit />) : (<Add />) }
+                    </IconButton>
+
+                    <IconButton disabled={ this.state.checkedRows.size <= 0 } onClick={this.deleteButtonClick}>
+                        <Delete />
+                    </IconButton>
                 </Grid>
             </Paper>
         </div>
     );
-  }
 }
 
-export default ResistanceWorkoutGrid;
+ResistanceWorkoutGrid.propTypes = {
+
+};
+
+ResistanceWorkoutGrid.defaultProps = {
+
+};
