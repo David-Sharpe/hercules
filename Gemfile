@@ -16,7 +16,7 @@ gem 'haml-rails', '~> 1.0'
 gem 'webpacker', '~> 5.2'
 gem 'react-rails', '~> 2.6'
 gem 'omniauth', '~> 1.9'
-gem 'omniauth-auth0', '~> 2.3'
+gem 'omniauth-auth0', '~> 2.4'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
