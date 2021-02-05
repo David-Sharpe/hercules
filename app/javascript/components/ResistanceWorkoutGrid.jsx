@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Table, TableBody, TableCell, TableHead, TableRow, Paper, Grid, Checkbox, TextField } from '@material-ui/core';
 import axios from 'axios';
 import moment from 'moment';
+import MomentUtils from '@date-io/moment';
 import { Add, Delete, Edit, NavigateBefore, NavigateNext } from '@material-ui/icons';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const units = Object.freeze([
     Object.freeze({
@@ -201,10 +203,13 @@ export default class ResistanceWorkoutGrid extends React.Component {
             <Paper>
                 <Grid>
                     <h2>Hello from the grid</h2>
-                    <TextField type='date'
-                        label='Date'
-                        defaultValue={ this.state.defaultValue }>
-                    </TextField>
+                    <MuiPickersUtilsProvider utils={ MomentUtils } >
+                        <DatePicker
+                            format='YYYY-MM-DD'
+                            value={ this.state.defaultValue }
+                            label='Date'
+                        />
+                    </MuiPickersUtilsProvider>
                     <Table>
                         <TableHead>
                             <TableRow>
