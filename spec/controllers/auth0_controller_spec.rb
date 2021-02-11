@@ -6,8 +6,7 @@ RSpec.describe Auth0Controller, type: :controller do
                 'id_token': 'jwt'
             },
             'info': 'test data' 
-    }.with_indifferent_access
-    } 
+    }.with_indifferent_access} 
 
     describe '#callback' do
         it 'sets userinfo in session' do
