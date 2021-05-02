@@ -13,7 +13,7 @@ gem 'uglifier', '~> 4.2'
 gem 'dotenv-rails', '~> 2.7'
 gem 'haml-rails', '~> 2.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 5.2'
+gem 'webpacker', '~> 5.3'
 gem 'react-rails', '~> 2.6'
 gem 'omniauth-auth0', '~>3.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
