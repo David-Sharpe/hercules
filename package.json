@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.11.0",
-    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-react": "^7.13.13",
     "@date-io/moment": "1.x",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -30,6 +30,6 @@
     "sass": "^1.26.9",
     "sass-loader": "^8.0.2",
     "webpack": "^4.43.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }
