@@ -1,7 +1,8 @@
 {
   "engineStrict": true,
   "engines": {
-    "node": ">= 12.16",
+    "node": "14.16",
+    "npm": "7.10",
     "yarn": ">= 1.22"
   },
   "dependencies": {
