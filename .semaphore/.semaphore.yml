@@ -1,29 +1,21 @@
 version: v1.0
-
 name: Hercules
-
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
-
 blocks:
   - name: Setup
     task:
       jobs:
-      - name: bundle
-        commands:
-          - checkout
-          - sem-version ruby 3.0.1
-          - bundle install
+        - name: bundle
+          commands:
+            - checkout
+            - sem-version ruby 3.0.1
+            - bundle install
   - name: Unit tests
     task:
-      prologue:
-        commands:
-          - checkout
-          - sem-version ruby 2.6.3
-          - bundle install
-        jobs:
-          - name: RSpec
-            commands:
-              - bundle exec rspec spec
+      jobs:
+        - name: RSpec
+          commands:
+            - bundle exec rspec spec
