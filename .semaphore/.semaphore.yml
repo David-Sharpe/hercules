@@ -21,6 +21,7 @@ blocks:
     task:
       prologue:
         commands:
+          - sem-version node 14.16
           - sem-version ruby 3.0.1
           - checkout
           - cache restore
