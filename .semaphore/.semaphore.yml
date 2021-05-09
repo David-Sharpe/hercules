@@ -12,6 +12,7 @@ blocks:
         - name: bundle
           commands:
             - checkout
+            - sem-version node 14.16
             - sem-version ruby 3.0.1
             - bundle install
   - name: Unit tests
