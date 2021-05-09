@@ -11,11 +11,11 @@ blocks:
   - name: Setup
     task:
       jobs:
-        - name: bundle
-          commands:
-            - checkout
-            - sem-version ruby 3.0.1
-            - bundle install
+      - name: bundle
+        commands:
+          - checkout
+          - sem-version ruby 3.0.1
+          - bundle install
   - name: Unit tests
     task:
       prologue:
