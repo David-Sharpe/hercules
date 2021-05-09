@@ -14,7 +14,16 @@ blocks:
             - sem-version ruby 3.0.1
             - bundle install
   - name: Unit tests
+    dependencies:
+      - Setup
     task:
+      prologue:
+        commands:
+          - sem-version ruby 3.0.1
+          - checkout
+          - cache restore
+          - bundle install
+          - cache store
       jobs:
         - name: RSpec
           commands:
